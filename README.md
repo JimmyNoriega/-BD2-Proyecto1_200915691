@@ -12,11 +12,11 @@
 
 Datos:
 
-| Nombre                               | Carnet    | Cliente* | 
-| ------------------------------------ | --------- | -------- |
-| <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6Uyi30Ty2WkMb0ZjuFLoXmkRwrrMObm-X2zztWtGbOgyA-i7mFzuiSKltN14HLAJDVM&usqp=CAU" alt="drawing" width="20"> &nbsp;Jimmy Yorbany Noriega Chávez         | 200915691 |  1       |
+| Nombre                               | Carnet    |
+| ------------------------------------ | --------- |
+| <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6Uyi30Ty2WkMb0ZjuFLoXmkRwrrMObm-X2zztWtGbOgyA-i7mFzuiSKltN14HLAJDVM&usqp=CAU" alt="drawing" width="20"> &nbsp;Jimmy Yorbany Noriega Chávez         | 200915691 |
 
-> \* ***Nota:*** El apartado ***Cliente***, en la tabla anterior, identifica a cada miembro del grupo en la sección ***Conexión entre miembros del grupo*** presentada más adelante.
+> \* ***Nota:*** El presente manual, presenta la configuración e implementacion de esquemas basicos, en base de datos Oracle.
 
 # Tarea No. 3
 
