@@ -199,70 +199,68 @@ Detalle
 </tr>
 <tr>
 <td>
-Configurar Regla Firewall 
+Entidad relación
 </td>
 <td>
-Configuramos la regla firewall, para esto vamos al menu firewall vpc, le asignamos un nombre caracteristico,
-seleccionamos todo para entrada, y le asignamos la ip 0.0.0.0/0, para permitir todo el tráfico, y le indicamos que vamos a permitir peticiones
-de http y https.
+Entidad relación asociada para el las votaciones electorales
 </td>
 <td>
-<img src="/images/paso1.png"/>  
+<img src="/images/paso6.png"/>  
 </td>
 </tr>
 <tr>
 <td>
-Configurar Instancia VM
+Crear TableSpace y Usuario
 </td>
 <td>
-Luego nos vamos a compute engine, donde seleccionamos crear una instancia de vm, donde le asignamos el nombre que deseemos, para la resolución que necesita el proyecto esta bien una con el menor performance por tema de costos, pero lo importante es seleccionar el sistema operativo centos 8
+Nos concectamos a nuestra base de datos con el usuario system y la contraseña asginada en la configuración, luego de estar ahi, debemos crear un tablespace con un nombre, un archivo para el mismo, el tamaño y si sera autoincremental, esto nos dara un trabajo personalizado de trabajo, luego de esto, debemos crear un usuario master para trabajar sobre el espacio de trabajo, debemos asignarlo los roles de DBA y de creación de usuarios.
 </td>
 <td>
-<img src="/images/paso2.png"/>  
-</td>
-</tr>
-<tr>
-<td>
-Levantar Instancia VM
-</td>
-<td>
-Luego nos vamos a nuestro panel de instancias, y verificamos que se encuentre arriba la instancia, de no estarlo, se levanta, como opcional, se puede configurar un ip estatica o elastica, para no que permanezca la misma y no sea necesario cambiar todos los puntos de conexion.
-</td>
-<td>
-<img src="/images/paso3.png"/>  
+<img src="/images/paso7.png"/>  
 </td>
 </tr>
 <tr>
 <td>
-Instalar archivos necesarios
+Login nuevo usuario
 </td>
 <td>
-Archivos necesarios para poder descargar, configurar e instalar oracle 21c Express Edition
+Luego nos logeamos con nuestro nuevo usuario master, para poder trabajar sobre nuestro tablespace creado
 </td>
 <td>
-sudo yum install unzip libaio bc flex wget
-</td>
-</tr>
-<tr>
-<td>
-Crear Archivos SWAP
-</td>
-<td>
-Se crean los archivos swap para manejar los archivos de configuracion.
-</td>
-<td>
-sudo dd if=/dev/zero of=/mnt/swapfile bs=1024 count=2097152
+<img src="/images/PASO8.png"/>  
 </td>
 </tr>
 <tr>
 <td>
-Permos Archivos SWAP
+Creación de usuarios
 </td>
 <td>
-Se le asignan los permisos necesarios a los archivos swap para su manipulación
+Se crean los usuarios solicitados, con los roles de insert, update, delete, consulta, y creacion de usuarios y tabla, caracteristica especial, para no poner permiso por tabla, se puede colcar el comando any, dentro de la instruccion para que afecte todos los objetos de ese tipo.
 </td>
 <td>
-sudo chmod 777 /mnt/swapfile
+<img src="/images/PASO9.png"/> 
+</td>
+</tr>
+<tr>
+<td>
+Creacón de Tablas
+</td>
+<td>
+Se crean las tablas según el entidad relación, parte 1
+</td>
+<td>
+<img src="/images/paso10.png"/> 
+</td>
+</tr>
+<tr>
+<td>
+Creación de Tablas
+</td>
+<td>
+Se crean las tablas según el entidad relación, parte 2
+</td>
+<td>
+<img src="/images/paso11.png"/> 
 </td>
 </tr>
 <tr>
