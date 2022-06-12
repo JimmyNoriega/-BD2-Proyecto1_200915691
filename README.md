@@ -265,55 +265,35 @@ Se crean las tablas según el entidad relación, parte 2
 </tr>
 <tr>
 <td>
-Configurar Archivos SWAP
+Carga de la información
 </td>
 <td>
-1. Seteamos el archivo </br> 
-2. Lo asignamos como el archivo swap del sistema </br> 
-3. Configurar para que se incie junto con la instancia, se puede hacer con vi o nano
+Ejecutamos el script para poder cargar nuestros datos al esquema de base de datos
 </td>
 <td>
-1. sudo mkswap /mnt/swapfile </br> 
-2. sudo su swapon /mnt/swapfile</br>
-3. /mnt/swapfile swap swap defaults 0 0
+<img src="/images/paso12.png"/> 
 </td>
 </tr>
 <tr>
 <td>
-Descargamos Oracle 21c EX
+Logeo para realizar la vista
 </td>
 <td>
-Procedemos a realizar la descarga de los archivos oficiales para la instalacion de oracle
+  Nos logueamos con el usuario guest1, ya que al va a pertenecer la vista, sobre los datos, donde se necesita saber cuantos votos, tuvieron los partidos, por minicipio.
 </td>
 <td>
-wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-21c-1.0-1.ol7.x86_64.rpm
+<img src="/images/paso13.png"/> 
 </td>
 </tr>
 <tr>
 <td>
-Instalar Oracle 21c EX
+Creación de la vista
 </td>
 <td>
-1. Procedemos a instalar oracle </br>
-2. Se configura las claves del usuario system </br>
-3. En caso de detener la instancia o que se detenga la base datos usar:
+Creamos la vista, para devolver la informacion solicitada dentro del usuario guest1.
 </td>
 <td> 
-1. yum -y localinstall oracle-database-xe-21c-1.0-1.ol7.x86_64.rpm </br>
-2. /etc/init.d/oracle-xe-21c configure </br>
-3. sudo /etc/init.d/oracle-xe-21c start
-</td>
-</tr>
-<tr>
-<td>
-Conexión a la Base de datos
-</td>
-<td>
-Para conectarnos a la base de datos, podemos usar programas como sql developer, donde usamos el usuario system y la contraseña que asginamos en el paso anterior 
-asignamos nuestra ip externa, y damos conectar, nos lleva hacia nuestro entorno de trabajo
-</td>
-<td> 
-<img src="/images/paso5.png"/>  
+<img src="/images/paso14.png"/> 
 </td>
 </tr>
 </table>
@@ -323,31 +303,133 @@ asignamos nuestra ip externa, y damos conectar, nos lleva hacia nuestro entorno 
 
 <div id='id3'/>
 
-## 3. Máquina virtual [ ⇧](#content)
+## 3[Segundo Esquema backup][ ⇧](#content)
 
-Creación de instancia de máquina virtual en ***Google Cloud Platform***
+</br>
+Pasos: 
+</br>
+<table>
+<tr>
+<td>
+Paso 
+</td>
+<td>
+Descripción
+</td>
+<td>
+Detalle
+</td>
+</tr>
+<tr>
+<td>
+Entidad relación
+</td>
+<td>
+Entidad relación asociada parael control de ligas sofre futbol
+</td>
+<td>
+<img src="/images/esq2.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Crear Usuarios
+</td>
+<td>
+Creamos tres usuarios, uno para controlar los esquemas de datos iniciales, y dos para poder migrar en uno solo el esquema y en otro esquema y datos.
+</td>
+<td>
+<img src="/images/paso15.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Login nuevo usuario y carga esquema
+</td>
+<td>
+Luego nos logeamos con nuestro nuevo usuario master, para poder crear el esquema
+</td>
+<td>
+<img src="/images/paso16.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Carga de script de datos
+</td>
+<td>
+Cargamos el script con la informacion de los datos que van a ser registrado en el sistema.
+</td>
+<td>
+<img src="/images/paso17.png"/> 
+</td>
+</tr>
+<tr>
+<td>
+Export datos
+</td>
+<td>
+Para poder exportar nuestro esquema y datos respectivamente, debemos crear 2 archivos donde especificamos, el usuario que hara la exportacion, el directorio donde seran creados el archivo .dmp con el backup, donde regisraremos el log de la exportacion, las tablas que se van a exportar o realizar backup y en el content, si seran solo los esquemas o todo, se hace uno por cada tipo de backup solicitado
+</td>
+<td>
+<img src="/images/paso18.png"/> 
+</td>
+</tr>
+<tr>
+<td>
+Creación de Directorio
+</td>
+<td>
+Creamos el directorio donse se van a ir a guardar nuestro archivos de backup y log, tomar en cuenta lo siguiente, todas las carpetas deben tener el permiso chmod 777, esto las marcara de color verde, esto es para poder acceder a el y manipular las carpetas
+</td>
+<td>
+<img src="/images/paso19.png"/> 
+</td>
+</tr>
+<tr>
+<td>
+ Exportamos la información
+</td>
+<td>
+Para exportar la informacion, nos logeamos con nuestro usuario oracle, sino nos recodamos la contraseña, podemo hacer su oracle, y luego passwd oracle, esto nos permitira asginarle una nueva contraseña, si al momento de ejecutar la instrucción expdp nos diche comando no encontrado, debemos setearle a este usuario las variables de entorno de nuestra instancia de base de datos, para esto usamos source oraenv y colocamos nuestra versión de oracle, luego ejecutamos la instrucción expdp -parfile Nombre del archivo.par, este nos pedira ingresar la contraseña del usuario, que se coloco en el campo USERID
+</td>
+<td>
+<img src="/images/paso20.png"/> 
+</td>
+</tr>
+<tr>
+<td>
+Exportamos esquema y datos
+</td>
+<td>
+  Para exportar con esquema de tablas y sus datos, colocamos en el content: ALL y ejecutamos la instruccion expdp -parfile Nombre del archivo.par
+</td>
+<td>
+<img src="/images/paso21.png"/> 
+</td>
+</tr>
+<tr>
+<td>
+Importamos información
+</td>
+<td>
+Para importar o hacer un restore al backup creado, vamos a usar la instruccion impdp, colocamos el usuario / contraseña del usuario, directorio donde se encuentran los archivos para hacer el restore, el archivo que contiene el backup, un logfile donde vamos a registrar las salidas de la importacion, y un mapeo de un esquema de un usuario a otro
+</td>
+<td> 
+<img src="/images/paso22.png"  width="388"/> 
+</td>
+</tr>
+</table>
 
-![Virtual](/images/mv1.png "Maquina Virtual")
-
-![Virtual](/images/mv2.png "Maquina Virtual")
-
-![Virtual](/images/mv3.png "Maquina Virtual")
-
-![Virtual](/images/instanciaVM.jpg "Maquina Virtual")
 
 Resumen de características:
 |Característica|Valor|
 |--|--|
 |**Plataforma**| <img src="https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=es-es" alt="drawing" width="150"><br>Google Cloud Platform |
-|**Tipo de instancia**|e2-small|
-|**Sistema operativo**|<img src="https://anthoncode.com/wp-content/uploads/2019/01/ubuntu-logo-png.png" alt="drawing" width="135"><br>Ubuntu|
-|**Versión**| 18.04 LTS|
+|**Tipo de instancia**|e2-nicro|
+|**Sistema operativo**|<img src="https://netknights.it/wp-content/uploads/2016/01/centos-logo-light.png" alt="drawing" width="135"><br>Centos|
+|**Versión**| 7|
 |**Espacio en disco**| 10 GB|
 |**Memoria RAM**| 2 GB|
 
-> Adicionalmente se crearon dos reglas de ***firewall***, una de entrada y una de salida como se observa a continuación.
-> 
-> **Regla de entrada:**
-> ![FirewallRules](/images/firewallvmin.png "Regla de Firewall - Entrada")
-> **Regla de salida:**
-> ![FirewallRules](/images/firewallvmout.png "Regla de Firewall - Salida")
+
