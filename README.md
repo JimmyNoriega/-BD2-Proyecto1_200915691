@@ -9,6 +9,11 @@
 >Vacaciones Primer Semestre, 2022
 >
 >Laboratorio de Bases de Datos 2 Sección *N*
+>
+>Tutor: Jurgen Ramirez
+
+
+
 
 Datos:
 
@@ -18,139 +23,309 @@ Datos:
 
 > \* ***Nota:*** El presente manual, presenta la configuración e implementacion de esquemas basicos, en base de datos Oracle.
 
-# Tarea No. 3
+# PROYECTO NO.1
 
 <div id='content'/>
 
 ## Contenido
 
-1. [Configuración de la red privada](#id1)
-2. [Conexión entre miembros del grupo](#id2)
-3. [Configuración de _openVPN_ ](#id3)
-4. [Grupo IAM](#id4)
-5. [Máquina Virtual](#id5)
+1. [Configuración Base de datos oracle, en GCP](#id1)
+2. [Primer esquema, permisos, vistas](#id2)
+3. [Segundo Esquema backup](#id3)
+
 
 <div id='id1'/>
 
-## 1. Configuración de la red privada  [ ⇧](#content)
+## 1. Configuración Base de datos oracle, en GCP [ ⇧](#content)
 
-Configuración de red ***VPN*** en instancia de máquina virtual.
+ La configuración requiere tener una cuenta en GCP (Google Cloud Plataform)
+ <img src="https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=es-es" alt="drawing" width="150"><br>
 
-Comandos utilizados: 
+Pasos: 
+</br>
+<table>
+<tr>
+<td>
+Paso 
+</td>
+<td>
+Descripción
+</td>
+<td>
+Detalle
+</td>
+</tr>
+<tr>
+<td>
+Configurar Regla Firewall 
+</td>
+<td>
+Configuramos la regla firewall, para esto vamos al menu firewall vpc, le asignamos un nombre caracteristico,
+seleccionamos todo para entrada, y le asignamos la ip 0.0.0.0/0, para permitir todo el tráfico, y le indicamos que vamos a permitir peticiones
+de http y https.
+</td>
+<td>
+<img src="/images/paso1.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Configurar Instancia VM
+</td>
+<td>
+Luego nos vamos a compute engine, donde seleccionamos crear una instancia de vm, donde le asignamos el nombre que deseemos, para la resolución que necesita el proyecto esta bien una con el menor performance por tema de costos, pero lo importante es seleccionar el sistema operativo centos 8
+</td>
+<td>
+<img src="/images/paso2.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Levantar Instancia VM
+</td>
+<td>
+Luego nos vamos a nuestro panel de instancias, y verificamos que se encuentre arriba la instancia, de no estarlo, se levanta, como opcional, se puede configurar un ip estatica o elastica, para no que permanezca la misma y no sea necesario cambiar todos los puntos de conexion.
+</td>
+<td>
+<img src="/images/paso3.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Instalar archivos necesarios
+</td>
+<td>
+Archivos necesarios para poder descargar, configurar e instalar oracle 21c Express Edition
+</td>
+<td>
+sudo yum install unzip libaio bc flex wget
+</td>
+</tr>
+<tr>
+<td>
+Crear Archivos SWAP
+</td>
+<td>
+Se crean los archivos swap para manejar los archivos de configuracion.
+</td>
+<td>
+sudo dd if=/dev/zero of=/mnt/swapfile bs=1024 count=2097152
+</td>
+</tr>
+<tr>
+<td>
+Permos Archivos SWAP
+</td>
+<td>
+Se le asignan los permisos necesarios a los archivos swap para su manipulación
+</td>
+<td>
+sudo chmod 777 /mnt/swapfile
+</td>
+</tr>
+<tr>
+<td>
+Configurar Archivos SWAP
+</td>
+<td>
+1. Seteamos el archivo </br> 
+2. Lo asignamos como el archivo swap del sistema </br> 
+3. Configurar para que se incie junto con la instancia, se puede hacer con vi o nano
+</td>
+<td>
+1. sudo mkswap /mnt/swapfile </br> 
+2. sudo su swapon /mnt/swapfile</br>
+3. /mnt/swapfile swap swap defaults 0 0
+</td>
+</tr>
+<tr>
+<td>
+Descargamos Oracle 21c EX
+</td>
+<td>
+Procedemos a realizar la descarga de los archivos oficiales para la instalacion de oracle
+</td>
+<td>
+wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-21c-1.0-1.ol7.x86_64.rpm
+</td>
+</tr>
+<tr>
+<td>
+Instalar Oracle 21c EX
+</td>
+<td>
+1. Procedemos a instalar oracle </br>
+2. Se configura las claves del usuario system </br>
+3. En caso de detener la instancia o que se detenga la base datos usar:
+</td>
+<td> 
+1. yum -y localinstall oracle-database-xe-21c-1.0-1.ol7.x86_64.rpm </br>
+2. /etc/init.d/oracle-xe-21c configure </br>
+3. sudo /etc/init.d/oracle-xe-21c start
+</td>
+</tr>
+<tr>
+<td>
+Conexión a la Base de datos
+</td>
+<td>
+Para conectarnos a la base de datos, podemos usar programas como sql developer, donde usamos el usuario system y la contraseña que asginamos en el paso anterior 
+asignamos nuestra ip externa, y damos conectar, nos lleva hacia nuestro entorno de trabajo
+</td>
+<td> 
+<img src="/images/paso5.png"/>  
+</td>
+</tr>
+</table>
 
-```sh
-sudo wget https://cubaelectronica.com/OpenVPN/openvpn-install.sh
-
-sudo bash openvpn-install.sh
-```
-- Configuración de ***IP***.
-
-![ConfiguracionVPN](/images/config1.jpg "Configuración IP")
-
-- Configuración de puerto y protocolo.
-
-![ConfiguracionVPN](/images/config2.jpg "Configuración Puerto y Protocolo")
-
-- Configuración de ***DNS***.
-
-![ConfiguracionVPN](/images/config3.jpg "Configuración DNS")
-
-- Generación de archivos ***.ovpn*** para conexión con clientes.
-
-![ConfiguracionVPN](/images/config4.jpg "Generación de archivos OVPN")
 
 <div id='id2'/>
 
-## 2. Conexión entre miembros del grupo [ ⇧](#content)
+## 2. Primer Esquema, permisos y vista [ ⇧](#content)
+</br>
+Pasos: 
+</br>
+<table>
+<tr>
+<td>
+Paso 
+</td>
+<td>
+Descripción
+</td>
+<td>
+Detalle
+</td>
+</tr>
+<tr>
+<td>
+Configurar Regla Firewall 
+</td>
+<td>
+Configuramos la regla firewall, para esto vamos al menu firewall vpc, le asignamos un nombre caracteristico,
+seleccionamos todo para entrada, y le asignamos la ip 0.0.0.0/0, para permitir todo el tráfico, y le indicamos que vamos a permitir peticiones
+de http y https.
+</td>
+<td>
+<img src="/images/paso1.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Configurar Instancia VM
+</td>
+<td>
+Luego nos vamos a compute engine, donde seleccionamos crear una instancia de vm, donde le asignamos el nombre que deseemos, para la resolución que necesita el proyecto esta bien una con el menor performance por tema de costos, pero lo importante es seleccionar el sistema operativo centos 8
+</td>
+<td>
+<img src="/images/paso2.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Levantar Instancia VM
+</td>
+<td>
+Luego nos vamos a nuestro panel de instancias, y verificamos que se encuentre arriba la instancia, de no estarlo, se levanta, como opcional, se puede configurar un ip estatica o elastica, para no que permanezca la misma y no sea necesario cambiar todos los puntos de conexion.
+</td>
+<td>
+<img src="/images/paso3.png"/>  
+</td>
+</tr>
+<tr>
+<td>
+Instalar archivos necesarios
+</td>
+<td>
+Archivos necesarios para poder descargar, configurar e instalar oracle 21c Express Edition
+</td>
+<td>
+sudo yum install unzip libaio bc flex wget
+</td>
+</tr>
+<tr>
+<td>
+Crear Archivos SWAP
+</td>
+<td>
+Se crean los archivos swap para manejar los archivos de configuracion.
+</td>
+<td>
+sudo dd if=/dev/zero of=/mnt/swapfile bs=1024 count=2097152
+</td>
+</tr>
+<tr>
+<td>
+Permos Archivos SWAP
+</td>
+<td>
+Se le asignan los permisos necesarios a los archivos swap para su manipulación
+</td>
+<td>
+sudo chmod 777 /mnt/swapfile
+</td>
+</tr>
+<tr>
+<td>
+Configurar Archivos SWAP
+</td>
+<td>
+1. Seteamos el archivo </br> 
+2. Lo asignamos como el archivo swap del sistema </br> 
+3. Configurar para que se incie junto con la instancia, se puede hacer con vi o nano
+</td>
+<td>
+1. sudo mkswap /mnt/swapfile </br> 
+2. sudo su swapon /mnt/swapfile</br>
+3. /mnt/swapfile swap swap defaults 0 0
+</td>
+</tr>
+<tr>
+<td>
+Descargamos Oracle 21c EX
+</td>
+<td>
+Procedemos a realizar la descarga de los archivos oficiales para la instalacion de oracle
+</td>
+<td>
+wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-21c-1.0-1.ol7.x86_64.rpm
+</td>
+</tr>
+<tr>
+<td>
+Instalar Oracle 21c EX
+</td>
+<td>
+1. Procedemos a instalar oracle </br>
+2. Se configura las claves del usuario system </br>
+3. En caso de detener la instancia o que se detenga la base datos usar:
+</td>
+<td> 
+1. yum -y localinstall oracle-database-xe-21c-1.0-1.ol7.x86_64.rpm </br>
+2. /etc/init.d/oracle-xe-21c configure </br>
+3. sudo /etc/init.d/oracle-xe-21c start
+</td>
+</tr>
+<tr>
+<td>
+Conexión a la Base de datos
+</td>
+<td>
+Para conectarnos a la base de datos, podemos usar programas como sql developer, donde usamos el usuario system y la contraseña que asginamos en el paso anterior 
+asignamos nuestra ip externa, y damos conectar, nos lleva hacia nuestro entorno de trabajo
+</td>
+<td> 
+<img src="/images/paso5.png"/>  
+</td>
+</tr>
+</table>
 
-Conexión de cada uno de los miembros del equipo con el resto de integrantes. 
 
-### Cliente 1
-```sh
-IP: 10.8.0.2
-```
-![Client1IP](/images/ipJimmy.jpg "Client1 IP")
 
-![Client1Ping](/images/pingJimmy.jpg "Client1 Ping")
-
-### Cliente 2
-```sh
-IP: 10.8.0.3
-```
-![Client2IP](/images/melyza4.png "Client2 IP")
-
-![Client2Ping](/images/melyza1.png "Client1 Ping")
-
-![Client2Ping](/images/melyza2.png "Client1 Ping")
-
-![Client2Ping](/images/melyza3.png "Client1 Ping")
-
-### Cliente 3
-```sh
-IP: 10.8.0.4
-```
-
-### Cliente 4
-```sh
-IP: 10.8.0.5
-```
-![Client4IP](/images/201602489JosueGonzalezpingvpn.png "Client4 IP")
 
 <div id='id3'/>
 
-## 3. Configuración de _openVPN_  [ ⇧](#content)
-
-- Descarga de software ***openVPN*** desde su sitio oficial.
-
-```sh
-https://openvpn.net/vpn-client/
-```
-
-![InstalacionOpenVPN](/images/open1.png "Descarga openVPN")
-
-![InstalacionOpenVPN](/images/open2.png "Archivo openVPN")
-
-- Ejecución del asistente de instalación
-
-![InstalacionOpenVPN](/images/open3.png "Asistente")
-
-![InstalacionOpenVPN](/images/open4.png "Asistente")
-
-![InstalacionOpenVPN](/images/open5.png "Asistente")
-
-![InstalacionOpenVPN](/images/open6.png "Asistente")
-
-![InstalacionOpenVPN](/images/open7.png "Asistente")
-
-
-- Ejecución del software instalado
-
-![InstalacionOpenVPN](/images/open8.png "Ejecución")
-
-- Conexión a servidor por medio de archivo generado
-
-![InstalacionOpenVPN](/images/open9.png "Conexión")
-
-![InstalacionOpenVPN](/images/open11.png "Conexión")
-
-![InstalacionOpenVPN](/images/open10.png "Conexión")
-
-![InstalacionOpenVPN](/images/open12.png "Conexión")
-
-> \* ***Nota:*** El firewall debe estar desactivado para poder llevar a cabo la comunicación.
-> 
-> ![Firewall](/images/firewall.png "Firewall")
-
-<div id='id4'/>
-
-## 4. Grupo IAM [ ⇧](#content)
-Grupo de ***IAM*** con todos los miembros del grupo.
-
-![GrupoIAM](/images/iam.jpg "Grupo IAM")
-
-<div id='id5'/>
-
-## 5. Máquina virtual [ ⇧](#content)
+## 3. Máquina virtual [ ⇧](#content)
 
 Creación de instancia de máquina virtual en ***Google Cloud Platform***
 
