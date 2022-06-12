@@ -6,22 +6,17 @@
 >
 >Escuela de Ciencias y Sistemas 
 >
->Primer Semestre, 2022
+>Vacaciones Primer Semestre, 2022
 >
->Laboratorio de Redes de Computadoras 1 Sección *N Impares*
+>Laboratorio de Bases de Datos 2 Sección *N*
 
-### Grupo No.2
+Datos:
 
-Integrantes:
+| Nombre                               | Carnet    |
+| ------------------------------------ | --------- |
+| <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6Uyi30Ty2WkMb0ZjuFLoXmkRwrrMObm-X2zztWtGbOgyA-i7mFzuiSKltN14HLAJDVM&usqp=CAU" alt="drawing" width="20"> &nbsp;Jimmy Yorbany Noriega Chávez         | 200915691 |
 
-| Nombre                               | Carnet    | Cliente* | 
-| ------------------------------------ | --------- | -------- |
-| <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6Uyi30Ty2WkMb0ZjuFLoXmkRwrrMObm-X2zztWtGbOgyA-i7mFzuiSKltN14HLAJDVM&usqp=CAU" alt="drawing" width="20"> &nbsp;Jimmy Yorbany Noriega Chávez         | 200915691 |  1       |
-|  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvke8Pr8T6xz52yM8v0ieg0oQy9L9SwfkO4hy4IKoRpxyQBKSGUWto7sWmzj9YYgm1VzU&usqp=CAU" alt="drawing" width="20"> &nbsp; Melyza Alejandra Rodríguez Contreras | 201314821 |  2       |
-| <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6Uyi30Ty2WkMb0ZjuFLoXmkRwrrMObm-X2zztWtGbOgyA-i7mFzuiSKltN14HLAJDVM&usqp=CAU" alt="drawing" width="20"> &nbsp; Romael Isaac Pérez Godinez           | 201213545 |  3       |
-| <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6Uyi30Ty2WkMb0ZjuFLoXmkRwrrMObm-X2zztWtGbOgyA-i7mFzuiSKltN14HLAJDVM&usqp=CAU" alt="drawing" width="20"> &nbsp; Josué Alfredo González Caal          | 201602489 |  4       |
-
-> \* ***Nota:*** El apartado ***Cliente***, en la tabla anterior, identifica a cada miembro del grupo en la sección ***Conexión entre miembros del grupo*** presentada más adelante.
+> \* ***Nota:*** El presente manual, presenta la configuración e implementacion de esquemas basicos, en base de datos Oracle.
 
 # Tarea No. 3
 
